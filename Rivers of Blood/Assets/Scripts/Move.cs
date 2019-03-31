@@ -10,6 +10,7 @@ public class Move : MonoBehaviour {
     public float jumpForce;
     public float speed;
     public bool isJumping = true;
+    public bool isDoubleJumping = true;
     Rigidbody2D rb;
 
     void Start()
@@ -21,10 +22,17 @@ public class Move : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isJumping == false)
+            if (isJumping == false && isDoubleJumping == false)
             {
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 isJumping = true;
+            }
+            else
+            if(isJumping == true && isDoubleJumping == false)
+            {
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                isJumping = false;
+                isDoubleJumping = true;
             }
         }
 
@@ -51,6 +59,7 @@ public class Move : MonoBehaviour {
         if (col.gameObject.tag == "tierra")
         {
             isJumping = false;
+            isDoubleJumping = false;
         }
     }
 }
